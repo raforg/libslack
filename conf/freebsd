@@ -20,7 +20,7 @@
 # or visit http://www.gnu.org/copyleft/gpl.html
 #
 
-# Modify Makefile, macros.mk and config.h to compile on OpenBSD
+# Modify Makefile, macros.mk and config.h to compile on FreeBSD
 #
 # 20020916 raf <raf@raf.org>
 
@@ -72,7 +72,7 @@ perl -pi \
 	-e 's/^\/\* #undef (HAVE_ASPRINTF) \*\/$/#define $1 1/;' \
 	-e 's/^\/\* #undef (HAVE_VASPRINTF) \*\/$/#define $1 1/;' \
 	-e 's/^\/\* #undef (HAVE_FLOCKFILE) \*\/$/#define $1 1/;' \
-	-e 's/^\/\* #undef (HAVE_FCNTL_THAT_CAN_LOCK_FIFOS) \*\/$/#define $1 1/;' \
+	-e 's/^#define (HAVE_FCNTL_THAT_CAN_LOCK_FIFOS) 1$/\/* #undef $1 *\//;' \
 	-e 's/^#define (HAVE_ISOC_REALLOC) 1$/\/* #undef $1 *\//;' \
 	-e 's/^\/\* #undef (HAVE_POLL) \*\/$/#define $1 1/;' \
 	-e 's/^#define (HAVE_LINUX_POLL_BUG) 1$/\/* #undef $1 *\//;' \
@@ -112,12 +112,12 @@ perl -pi \
 	-e 's/^#define (HAVE_DEV_PTS_AND_PTC) 1$/\/* #undef $1 *\//;' \
 	-e 's/^\/\* #undef (HAVE_OPENPTY) \*\/$/#define $1 1/;' \
 	-e 's/^#define (HAVE_PTY_H) 1$/\/* #undef $1 *\//;' \
-	-e 's/^\/\* #undef (HAVE_UTIL_H) \*\/$/#define $1 1/;' \
-	-e 's/^#define (HAVE_LIBUTIL_H) 1$/\/* #undef $1 *\//;' \
+	-e 's/^#define (HAVE_UTIL_H) 1$/\/* #undef $1 *\//;' \
+	-e 's/^\/\* #undef (HAVE_LIBUTIL_H) \*\/$/#define $1 1/;' \
 	-e 's/^\/\* #undef (HAVE_SYS_STROPTS_H) \*\/$/#define $1 1/;' \
 	-e 's/^#define (HAVE_VHANGUP) 1$/\/* #undef $1 *\//;' \
 	-e 's/^#define (HAVE__GETPTY) 1$/\/* #undef $1 *\//;' \
-	-e 's/^\/\* #undef (HAVE_TTYNAME_R) \*\/$/#define $1 1/;' \
+	-e 's/^#define (HAVE_TTYNAME_R) 1$/\/* #undef $1 *\//;' \
 	-e 's/^\/\* #undef (HAVE_PTSNAME_R) \*\/$/#define $1 1/;' \
 	-e 's/^\/\* #undef (HAVE_PTSNAME) \*\/$/#define $1 1/;' \
 	`find . -name config.h`

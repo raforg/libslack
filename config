@@ -20,20 +20,38 @@
 # or visit http://www.gnu.org/copyleft/gpl.html
 #
 
-# Swap to supplied implementation of rwlocks
-#
 # 20020916 raf <raf@raf.org>
 
-perl -pi \
-	-e 's/pthread_rwlock/test_pthread_rwlock/g;' \
-	-e 's/\bPTHREAD_RWLOCK/TEST_PTHREAD_RWLOCK/g;' \
-	${@:-`find . -name '*.[ch]'`}
+die() { echo "$0: $@" >&2; exit 1; }
 
-perl -pi \
-	-e 's/^(\S+ \+= -DHAVE_PTHREAD_RWLOCK=1)$/# $1/;' \
-	`find . -name macros.mk`
+case "`uname -a`" in
+	Linux*)
+		conf/linux
+		;;
 
-perl -pi \
-	-e 's/^#define (HAVE_PTHREAD_RWLOCK) 1$/\/* #undef $1 *\//;' \
-	`find . -name config.h`
+	FreeBSD*)
+		conf/freebsd
+		;;
 
+	OpenBSD*)
+		conf/openbsd
+		;;
+
+	SunOS*)
+		cc=""
+		solaris="solaris8"
+		[ "x`uname -r`" = "x5.6" ] && solaris="solaris6"
+		[ "x`which gcc 2>/dev/null`" != "x" ] && cc="gcc"
+		[ "x`which cc 2>/dev/null`"  != "x" ] && cc="cc"
+		[ "$cc" = "" ] && die "Failed to find a compiler"
+		conf/$solaris-$cc
+		;;
+
+	*)
+		die "Unknown platform: please configure manually"
+		;;
+esac
+
+exit 0
+
+# vi:set ts=4 sw=4

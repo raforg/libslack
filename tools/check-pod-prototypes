@@ -1,4 +1,5 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
+$^W = 1;
 use strict;
 
 # Compares the function prototypes in the pod manpage source against the
@@ -15,7 +16,7 @@ my $line = 0;
 while ($_ = <>)
 {
 	++$line;
-# printf("line $line $_");
+#	printf("line $line $_");
 
 	if ($state == 0 && /^=item C[<](.*)[>]$/) # pod function prototype doco
 	{
@@ -64,18 +65,18 @@ while ($_ = <>)
 			my ($doc_type, $doc_name, $doc_args) = $doc =~ /^(\w+ \*?)([a-zA-Z_0-9]+)\((.*)\)/;
 			my ($src_type, $src_name, $src_args) = $_ =~ /^(\w+ \*?)([()a-zA-Z_0-9]+)\((.*)\)/;
 
-# if (!defined $doc_type || !defined $doc_name || !defined $doc_args || !defined $src_type || !defined $src_name || !defined $src_args)
-# {
-# print 'doc = ', $doc, "\n";
-# print 'src = ', $_, "\n";
-# print 'line = ', $line, "\n";
-# print 'doc_type = ', $doc_type, "\n";
-# print 'doc_name = ', $doc_name, "\n";
-# print 'doc_args = ', $doc_args, "\n";
-# print 'src_type = ', $src_type, "\n";
-# print 'src_name = ', $src_name, "\n";
-# print 'src_args = ', $src_args, "\n";
-# }
+#			if (!defined $doc_type || !defined $doc_name || !defined $doc_args || !defined $src_type || !defined $src_name || !defined $src_args)
+#			{
+#				print 'doc = ', $doc, "\n";
+#				print 'src = ', $_, "\n";
+#				print 'line = ', $line, "\n";
+#				print 'doc_type = ', $doc_type, "\n";
+#				print 'doc_name = ', $doc_name, "\n";
+#				print 'doc_args = ', $doc_args, "\n";
+#				print 'src_type = ', $src_type, "\n";
+#				print 'src_name = ', $src_name, "\n";
+#				print 'src_args = ', $src_args, "\n";
+#			}
 			print("doc = '$doc'\nsrc = '$_'\n\n")
 				if $src_type ne $doc_type || $src_name ne "($doc_name)" || $src_args ne $doc_args;
 		}
