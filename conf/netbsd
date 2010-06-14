@@ -20,7 +20,7 @@
 # or visit http://www.gnu.org/copyleft/gpl.html
 #
 
-# Modify Makefile, macros.mk and config.h to compile on FreeBSD
+# Modify Makefile, macros.mk and config.h to compile on NetBSD
 #
 # 20100612 raf <raf@raf.org>
 
@@ -35,7 +35,7 @@ perl -pi \
 	-e 's/^(\S+ \+= -DHAVE_GETOPT_LONG=1)$/# $1/;' \
 	-e 's/^# (\S+ \+= -DHAVE_VSSCANF=1)$/$1/;' \
 	-e 's/^# (\S+ \+= -DHAVE_PTHREAD_RWLOCK=1)$/$1/;' \
-	-e 's/^# (\S+ \+= -DNO_POSIX_C_SOURCE=1)$/$1/;' \
+	-e 's/^(\S+ \+= -DNO_POSIX_C_SOURCE=1)$/# $1/;' \
 	-e 's/^# (\S+ \+= -DNO_POSIX_SOURCE=1)$/$1/;' \
 	-e 's/^# (\S+ \+= -DNO_XOPEN_SOURCE=1)$/$1/;' \
 	-e 's/^(\S+ \+= -DROOT_PID_DIR)=.*$/# $1=\\"\/var\/run\\"/;' \
@@ -43,15 +43,15 @@ perl -pi \
 	-e 's/^# (CC := gcc)$/$1/;' \
 	-e 's/^# (\S+ \+= -Wno-long-long)$/$1/;' \
 	-e 's/^(\S+ \+= -Wno-overlength-strings)$/# $1/;' \
-	-e 's/^(\w*CCFLAGS \+= -O3)$/# $1/;' \
+	-e 's/^# (\w*CCFLAGS \+= -O3)$/$1/;' \
 	-e 's/^# (\w*CCFLAGS \+= -Wall -pedantic)$/$1/;' \
 	-e 's/^(\w*(?:CC|LD)FLAGS \+= -m64)$/# $1/;' \
 	-e 's/^(\w*CCFLAGS \+= -xO4)$/# $1/;' \
-	-e 's/^# (\w*LIBS \+= pthread)$/$1/;' \
-	-e 's/^(\w*LIBS \+= util)$/# $1/;' \
-	-e 's/^(\w*LDFLAGS \+= -pthread)$/# $1/;' \
-	-e 's/^MAN_GZIP := 0$/MAN_GZIP := 1/;' \
-	-e 's/^(MAN_LOCDIR\s*:=).*$/$1 \$(PREFIX)\/share\/man/;' \
+	-e 's/^(\w*LIBS \+= pthread)$/# $1/;' \
+	-e 's/^# (\w*LIBS \+= util)$/$1/;' \
+	-e 's/^# (\w*LDFLAGS \+= -pthread)$/$1/;' \
+	-e 's/^MAN_GZIP := 1$/MAN_GZIP := 0/;' \
+	-e 's/^(MAN_LOCDIR\s*:=).*$/$1 \$(PREFIX)\/man/;' \
 	`find . -name Makefile` \
 	`find . -name macros.mk`
 
@@ -63,7 +63,7 @@ perl -pi \
 	-e 's/^\/\* #undef (NO_POSIX_SOURCE) \*\/$/#define $1 1/;' \
 	-e 's/^\/\* #undef (NO_XOPEN_SOURCE) \*\/$/#define $1 1/;' \
 	-e 's/^\/\* #undef (HAVE_STDARG_H) \*\/$/#define $1 1/;' \
-	-e 's/^\/\* #undef (HAVE_STDINT_H) \*\/$/#define $1 1/;' \
+	-e 's/^#define (HAVE_STDINT_H) 1$/\/\* #undef $1 \*\//;' \
 	-e 's/^\/\* #undef (HAVE_POLL_H) \*\/$/#define $1 1/;' \
 	-e 's/^\/\* #undef (HAVE_SYS_POLL_H) \*\/$/#define $1 1/;' \
 	-e 's/^\/\* #undef (HAVE_SYS_SELECT_H) \*\/$/#define $1 1/;' \
@@ -81,7 +81,7 @@ perl -pi \
 	-e 's/^\/\* #undef (HAVE_ASPRINTF) \*\/$/#define $1 1/;' \
 	-e 's/^\/\* #undef (HAVE_VASPRINTF) \*\/$/#define $1 1/;' \
 	-e 's/^\/\* #undef (HAVE_FLOCKFILE) \*\/$/#define $1 1/;' \
-	-e 's/^\/\* #undef (HAVE_FCNTL_THAT_CAN_LOCK_FIFOS) \*\/$/#define $1 1/;' \
+	-e 's/^#define (HAVE_FCNTL_THAT_CAN_LOCK_FIFOS) 1$/\/* #undef $1 *\//;' \
 	-e 's/^#define (HAVE_ISOC_REALLOC) 1$/\/* #undef $1 *\//;' \
 	-e 's/^\/\* #undef (HAVE_POLL) \*\/$/#define $1 1/;' \
 	-e 's/^#define (HAVE_LINUX_POLL_BUG) 1$/\/* #undef $1 *\//;' \
@@ -129,6 +129,6 @@ perl -pi \
 	-e 's/^#define (HAVE_TTYNAME_R) 1$/\/* #undef $1 *\//;' \
 	-e 's/^\/\* #undef (HAVE_PTSNAME_R) \*\/$/#define $1 1/;' \
 	-e 's/^\/\* #undef (HAVE_PTSNAME) \*\/$/#define $1 1/;' \
-	-e 's/^\/\* #undef (HAVE_POLL_THAT_ABORTS_WHEN_POLLFDS_IS_NULL) \*\/$/#define $1 1/;' \
+	-e 's/^#define (HAVE_POLL_THAT_ABORTS_WHEN_POLLFDS_IS_NULL) 1$/\/* #undef $1 *\//;' \
 	`find . -name config.h`
 
